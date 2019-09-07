@@ -50,7 +50,7 @@ def parse_args():
 def infer():
     args = parse_args()
 
-    place = fluid.CUDAPlace(os.environ["CUDA_VISIBLE_DEVICES"])
+    place = fluid.CUDAPlace(0)
     inference_scope = fluid.Scope()
 
     dataset = reader.CriteoDataset(args.sparse_feature_dim)
