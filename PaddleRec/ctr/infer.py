@@ -4,7 +4,7 @@ import logging
 import numpy as np
 # disable gpu training for this example 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 import paddle
 import paddle.fluid as fluid
 
@@ -50,7 +50,7 @@ def parse_args():
 def infer():
     args = parse_args()
 
-    place = fluid.CPUPlace()
+    place = fluid.CUDAPlace(os.environ["CUDA_VISIBLE_DEVICES"])
     inference_scope = fluid.Scope()
 
     dataset = reader.CriteoDataset(args.sparse_feature_dim)

@@ -16,7 +16,7 @@ from multiprocessing import cpu_count
 
 
 # disable gpu training for this example
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -149,7 +149,7 @@ def train_loop(args, train_program, py_reader, loss, auc_var, batch_auc_var,
 
     exe.run(fluid.default_startup_program())
     pe = fluid.ParallelExecutor(
-        use_cuda=False,
+        use_cuda=True,
         loss_name=loss.name,
         main_program=train_program,
         build_strategy=build_strategy,
