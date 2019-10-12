@@ -92,6 +92,7 @@ def parse_args():
     add_arg('checkpoint',               str,    None,                   "Whether to resume checkpoint.")
     add_arg('print_step',               int,    10,                     "The steps interval to print logs")
     add_arg('save_step',                int,    1,                      "The steps interval to save checkpoints")
+    add_arg('max_step',                 int,    30,                     "The steps of each epoch")
 
     # SOLVER AND HYPERPARAMETERS
     add_arg('model',                    str,    "ResNet50",   "The name of network.")
@@ -123,7 +124,7 @@ def parse_args():
     add_arg('reader_buf_size',          int,    2048,                   "The buf size of multi thread reader")
     add_arg('interpolation',            int,    None,                   "The interpolation mode")
     add_arg('use_aa',                   bool,   False,                  "Whether to use auto augment")
-    parser.add_argument('--image_mean', nargs='+', type=float, default=[0.485, 0.456, 0.406], help="The mean of input image data")
+    parser.add_argument('--image_mean', nargs='+', type=float, default=[0.483, 0.456, 0.406], help="The mean of input image data")
     parser.add_argument('--image_std', nargs='+', type=float, default=[0.229, 0.224, 0.225], help="The std of input image data")
 
     # SWITCH
@@ -535,3 +536,4 @@ class ExponentialMovingAverage(object):
             executor (Executor): The Executor to execute restoring.
         """
         executor.run(self.restore_program)
+

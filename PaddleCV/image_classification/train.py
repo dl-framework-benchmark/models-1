@@ -208,7 +208,8 @@ def train(args):
                            train_batch_metrics_avg, train_batch_elapse, "batch")
                 sys.stdout.flush()
                 train_batch_id += 1
-
+                if train_batch_id>=args.max_step:
+                    break
         except fluid.core.EOFException:
             train_py_reader.reset()
 
@@ -218,7 +219,7 @@ def train(args):
                 validate(args, test_py_reader, exe, test_prog, test_fetch_list, pass_id, train_batch_metrics_record)
             print('ExponentialMovingAverage validate over!')
 
-        validate(args, test_py_reader, exe, test_prog, test_fetch_list, pass_id, train_batch_metrics_record)
+        #validate(args, test_py_reader, exe, test_prog, test_fetch_list, pass_id, train_batch_metrics_record)
         #For now, save model per epoch.
         if pass_id % args.save_step == 0:
             save_model(args, exe, train_prog, pass_id)

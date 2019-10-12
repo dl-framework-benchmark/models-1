@@ -83,7 +83,7 @@ class ResNet():
                 input=pool,
                 size=class_dim,
                 param_attr=fluid.param_attr.ParamAttr(
-                    initializer=fluid.initializer.Uniform(-stdv, stdv)))
+                    initializer=fluid.initializer.Normal(loc=0.0, scale=2.0)))
         else:
             for block in range(len(depth)):
                 for i in range(depth[block]):
@@ -102,7 +102,7 @@ class ResNet():
                 input=pool,
                 size=class_dim,
                 param_attr=fluid.param_attr.ParamAttr(
-                    initializer=fluid.initializer.Uniform(-stdv, stdv)))
+                    initializer=fluid.initializer.Normal(loc=0.0, scale=2.0)))
         return out
 
     def conv_bn_layer(self,
@@ -121,9 +121,10 @@ class ResNet():
             padding=(filter_size - 1) // 2,
             groups=groups,
             act=None,
-            param_attr=ParamAttr(name=name + "_weights"),
+            param_attr=ParamAttr(name=name + "_weights",initializer=fluid.initializer.Normal(loc=0.0, scale=2.0)),
             bias_attr=False,
-            name=name + '.conv2d.output.1')
+            name=name + '.conv2d.output.1',
+        )
 
         if name == "conv1":
             bn_name = "bn_" + name
@@ -133,8 +134,8 @@ class ResNet():
             input=conv,
             act=act,
             name=bn_name + '.output.1',
-            param_attr=ParamAttr(name=bn_name + '_scale'),
-            bias_attr=ParamAttr(bn_name + '_offset'),
+            param_attr=ParamAttr(name=bn_name + '_scale',initializer=fluid.initializer.Normal(loc=0.0, scale=2.0)),
+            bias_attr=ParamAttr(bn_name + '_offset',initializer=fluid.initializer.Normal(loc=0.0, scale=2.0)),
             moving_mean_name=bn_name + '_mean',
             moving_variance_name=bn_name + '_variance', )
 
@@ -218,3 +219,4 @@ def ResNet101():
 def ResNet152():
     model = ResNet(layers=152)
     return model
+

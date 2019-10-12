@@ -172,6 +172,9 @@ class Optimizer(object):
             regularization=fluid.regularizer.L2Decay(self.l2_decay))
         return optimizer
 
+    def sgd_decay(self):
+        return fluid.optimizer.SGD(learning_rate=self.lr)
+
     def cosine_decay(self):
         """cosine decay with Momentum optimizer
 
